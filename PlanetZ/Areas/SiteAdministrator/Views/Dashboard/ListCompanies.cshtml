@@ -1,0 +1,44 @@
+﻿
+@model List<ListCompanyVM>
+@{
+    ViewData["Title"] = "Company List";
+}
+<h1 class="text-primary">Company List</h1>
+<hr/>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="text-info">
+            <th>Logo</th>
+            <th>Company Name</th>            
+            <th>E-Mail</th>
+            <th>Company Type</th>
+            <th>Sector</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="align-items-baseline">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/img/companyLogos/@item.LogoPath" alt="Image" width="80" class="rounded" />
+                </td>
+                <td class="text-dark">@item.CompanyName</td>
+                <td class="text-dark">@item.Email</td>
+                <td class="text-dark ">@(item.CompanyType.ToString())</td>
+                <td class="text-dark">@item.Sector</td>
+                <td>
+                    <a asp-area="SiteAdministrator" asp-controller="Dashboard" asp-action="DetailsCompany" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(".table").DataTable({
+            "order": []
+        });
+    </script>
+}

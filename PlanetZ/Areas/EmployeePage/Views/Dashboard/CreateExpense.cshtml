@@ -1,0 +1,37 @@
+﻿@model CreateExpenseVM
+@{
+    ViewData["Title"] = "Expense Request";
+}
+
+<h1 class="text-primary">Expense Request</h1>
+
+<form asp-action="CreateExpense" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="ExpenseType">Expense  Type</label>
+        <select id="expenseTypeList" type="radio" asp-for="ExpenseType" class="form-control" asp-items="@Html.GetEnumSelectList<EnumExpense>()">
+        </select>
+        <span asp-validation-for="ExpenseType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="ExpenseAmount">Expense  Amount</label>
+        <input type="text" asp-for="ExpenseAmount" class="form-control" />
+        <span asp-validation-for="ExpenseAmount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="ExpenseDescription">Expense  Description</label>
+        <input type="text" asp-for="ExpenseDescription" class="form-control" />
+        <span asp-validation-for="ExpenseDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="FilePath">Upload Document</label>
+        <input type="file" asp-for="FilePath" class="form-control-file" />
+        <span asp-validation-for="FilePath" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Request</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

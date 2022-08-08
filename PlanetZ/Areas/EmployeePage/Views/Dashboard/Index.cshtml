@@ -1,0 +1,163 @@
+﻿@model ShowEmployeeVM
+@{
+    ViewData["Title"] = "Dashboard";
+}
+@if (Model != null)
+{
+    @if (Model.Role == EnumRoles.Employee)
+    {
+        <div class="card" style="background-image: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% ); box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; color:black">
+            <div class="row border-1 align-items-center">
+                <div class="col-md-4">
+                    <img class="ml-3 rounded my-2 w-100" src="~/img/employeePhotos/@Model.PhotoPath" alt="Image">
+                </div>
+                <div class="col-md-4 mt-2 ml-3">
+                    <p><b>Name : </b>@Model.FirstName @Model.LastName</p>
+                    <p><b>E-mail : </b>@Model.Email</p>
+                    <p><b>Title : </b>@Model.Title</p>
+                    <p><b>Work Unit : </b>@Model.WorkUnit</p>
+                </div>
+                <div class="col-md-3 mt-2 ml-3">
+                    <p><b>Profession : </b>@Model.Profession</p>
+                    <p><b>Company : </b>@Model.Company.CompanyName</p>
+                    <p><b>Role : </b>@(Model.Role == EnumRoles.CompanyManager ? "Company Manager" : Model.Role)</p>
+                    <p><b>Activity Status : </b>@Model.ActivityStatus</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        @if (Model.listEmployee.Count > 0)
+        {
+            <h2 class="mb-4 text-primary">Active Employees List</h2>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-info">
+                        <th>Photo</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>E-Mail</th>
+                        <th>Activity Status</th>
+                    </tr>
+                </thead>
+                <tbody class="align-items-baseline">
+                    @foreach (var item in Model.listEmployee)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/img/employeePhotos/@item.PhotoPath" alt="Image" width="80" class="rounded" />
+                            </td>
+                            <td class="text-dark">@item.FirstName</td>
+                            <td class="text-dark">@item.LastName</td>
+                            <td class="text-dark">@item.Email</td>
+                            <td class="text-white bg-gradient-secondary">@(item.ActivityStatus.ToString())</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (Model.Permissions.Count > 0)
+        {
+            <h2 class="mb-4 mt-3 text-primary">Your Pending Permission Requests</h2>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-info">
+                        <th>Permit Type</th>
+                        <th>Permit Start Date</th>
+                        <th>Permit End Date</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="align-items-baseline">
+                    @foreach (var item in Model.Permissions)
+                    {
+                        <tr>
+                            <td class="text-dark">@(item.PermitType == EnumPermission.MarriagePermission ? "Marriage Permission" : (item.PermitType == EnumPermission.AnnualPermit ? "Annual Leave" : (item.PermitType == EnumPermission.PaternityLeave ? "Paternity Leave" : (item.PermitType == EnumPermission.AdministrativeLeave ? "Administrative Leave" : "Excuse Leave"))))</td>
+                            <td class="text-dark">@item.PermitStartDate.ToShortDateString()</td>
+                            <td class="text-dark">@(((DateTime)item.LeaveExpiryDate).ToShortDateString())</td>
+                            <td class="text-dark">@(item.Duration) Day(s)</td>
+                            <td class="text-warning">@(item.PermissionStatus)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (Model.Expenses.Count > 0)
+        {
+            <h2 class="mb-4 mt-3 text-primary">Your Pending Expense Requests</h2>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-info">
+                        <th>Expense Type</th>
+                        <th>Expense Amount</th>
+                        <th>Expense Description</th>
+                        <th>Request Date</th>
+                        <th>Invoice/Bill File</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="align-items-baseline">
+                    @foreach (var item in Model.Expenses)
+                    {
+                        <tr>
+                            <td class="text-dark">@(item.ExpenseType == EnumExpense.FuelExpense ? "Fuel Expense" : (item.ExpenseType == EnumExpense.FoodExpense ? "Food Expense" : (item.ExpenseType == EnumExpense.TravelExpense ? "Travel Expense" : (item.ExpenseType == EnumExpense.HealthcareExpense ? "Healtcare Expense" : "Accommodation Expense"))))</td>
+                            <td class="text-dark">₺@item.ExpenseAmount.ToString("n2")</td>
+                            <td class="text-dark">@item.ExpenseDescription</td>
+                            <td class="text-dark">@item.RequestDate.ToShortDateString()</td>
+                            @if (item.FilePath == null)
+                            {
+                                <td class="text-warning"><a href="#">No File</a></td>
+                            }
+                            else
+                            {
+                                <td class="text-warning"><a href="~/files/@item.FilePath">@item.FilePath</a></td>
+                            }
+                            <td class="text-warning">Pending</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (Model.Advances.Count > 0)
+        {
+            <h2 class="mb-4 mt-3 text-primary">Your Pending Advance Requests</h2>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-info">
+                        <th>Advance Amount</th>
+                        <th>Advance Description</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="align-items-baseline">
+                    @foreach (var item in Model.Advances)
+                    {
+                        <tr>
+                            <td class="text-dark">@(item.AdvanceCurrency == EnumCurrencyUnit.USD ? "$" : (item.AdvanceCurrency == EnumCurrencyUnit.EUR ? "€" : "₺")) @item.AdvanceAmount</td>
+                            <td class="text-dark">@item.AdvanceDescription</td>
+                            <td class="text-dark">@item.RequestDate.ToShortDateString()</td>
+                            <td class="text-warning">Pending</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+}
+@section Scripts {
+    <script>
+        const message = "@TempData["message"]";
+        if (message){
+            successMessage(message);
+        }
+
+        $(".table").DataTable({
+            "order": []
+        });
+    </script>
+}

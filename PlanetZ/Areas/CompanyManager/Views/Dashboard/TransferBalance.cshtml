@@ -1,0 +1,63 @@
+﻿@model TransferBalanceVM
+@{
+    ViewData["Title"] = "Wallet";
+}
+
+@if (ViewData["Error"] != null)
+{
+    <span class="text-danger">@ViewData["Error"]</span>
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="ShowWallet">Your Balance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Transfer Balance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="AddCreditCard">Add Credit Card</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <form asp-action="TransferBalance" method="post">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="card-title">Your wallet balance</h3>
+                    <p class="card-body">₺@Model.WalletBalance</p>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="text-dark" asp-for="CreditCardId">Credit Cards</label>
+                        <select type="radio" asp-for="CreditCardId" class="form-control" asp-items="@Model.CreditCards">
+                        </select>
+                        <span asp-validation-for="CreditCardId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="hidden" asp-for="CreditCardId" />
+                <input type="hidden" asp-for="WalletId" />
+                <div class="form-group">
+                    <label class="text-dark" asp-for="TransferAmount">Transfer Amount</label>
+                    <input onchange="updateAmount(this.value)" type="range" min="0" max="2000" asp-for="TransferAmount" class="form-control" />
+                    <span class="text-info">You can transfer maximum ₺2000 for one time.</span>
+                    <span asp-validation-for="TransferAmount" class="text-danger"></span>
+                    <h4 id="amount" class="text-success"></h4>
+                </div>
+                <button type="submit" class="btn btn-success">Transfer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function updateAmount(val) {
+            document.getElementById("amount").innerHTML = "₺" + val;
+        }
+    </script>
+}

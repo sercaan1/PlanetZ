@@ -1,0 +1,36 @@
+﻿@model AdvanceRequestVM
+
+@{
+    ViewData["Title"] = "Advance Request";
+}
+
+<h1 class="text-primary">Advance Request</h1>
+
+<form asp-action="CreateAdvance" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="AdvanceType">Advance Type</label>
+        <select id="advanceTypeList" type="radio" asp-for="AdvanceType" class="form-control" asp-items="@Html.GetEnumSelectList<EnumAdvanceType>()"></select>
+        <span asp-validation-for="AdvanceType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="AdvanceAmount">Advance Amount</label>
+        <input type="text" asp-for="AdvanceAmount" class="form-control" />
+        <span asp-validation-for="AdvanceAmount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="AdvanceCurrency">Advance Currency</label>
+        <select id="advanceCurrencyList" type="radio" asp-for="AdvanceCurrency" class="form-control" asp-items="@Html.GetEnumSelectList<EnumCurrencyUnit>()"></select>
+        <span asp-validation-for="AdvanceCurrency" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="AdvanceDescription">Advance Description</label>
+        <textarea asp-for="AdvanceDescription" class="form-control" required></textarea>
+        <span asp-validation-for="AdvanceDescription" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Request</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

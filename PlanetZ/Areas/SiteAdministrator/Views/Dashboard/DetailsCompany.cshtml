@@ -1,0 +1,76 @@
+﻿
+@model CompanyDetailsVM
+@{
+    ViewData["Title"] = "Company Details:";
+}
+
+<section style="background-color: #f4f5f7;">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="card mb-3" style="border-radius: .5rem; color:black">
+            <div class="row g-0">
+                <div class="col-md-4 gradient-custom text-center"
+                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="~/img/companyLogos/@Model.CompanyLogoPath"
+                         alt="Logo" class="img-fluid my-5" style="width: 300px;" />
+                    <h3 class="text-dark">@Model.CompanyName</h3>
+                    <p class="text-dark">@Model.CompanyType</p>
+                    <p class="text-dark">@Model.Sector</p>
+                    <form asp-action="EditCompany" asp-route-id="@Model.Id" method="get">
+                        <input type="hidden" asp-for="Id" />
+                        <button class="mb-5" type="submit">
+                            <i style="font-size: 1.5rem" class="far fa-edit "></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h5 class="fw-bolder text-primary">Company Information</h5>
+                        </div>
+                        <hr class="mt-0 mb-4">
+                        <div class="row pt-1">
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Mersis No</h5>
+                                <p class="text-dark">@Model.MersisNo</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Email</h5>
+                                <p class="text-dark">@Model.Email</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Phone</h5>
+                                <p class="text-dark">@Model.PhoneNumber</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Address</h5>
+                                <p class="text-dark">@Model.Address</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Date of contract</h5>
+                                <p class="text-dark">@Model.DateOfContract.ToShortDateString()</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Company Foundated Date</h5>
+                                <p class="text-dark">
+                                    @Model.FoundedDate.ToShortDateString()
+                                </p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">End of contract</h5>
+                                <p class="text-dark">
+                                    @Model.EndOfContract.ToShortDateString()
+                                </p>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<a asp-action="ListCompanies">&laquo; Back to company list..</a>
+

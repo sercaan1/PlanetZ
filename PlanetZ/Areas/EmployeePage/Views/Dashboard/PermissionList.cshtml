@@ -1,0 +1,53 @@
+﻿@model List<ListPermissionVM>
+@{
+    ViewData["Title"] = "Permission List";
+}
+<h1 class="text-primary mb-4">Your Past Permissions List</h1>
+
+@if (Model == null)
+{
+    <h5>There is no permission request yet.</h5>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="text-info">
+            <th>Permit Type</th>
+            <th>Employee Full Name</th>
+            <th>Permit Start Date</th>
+            <th>Permit End Date</th>
+            <th>Duration</th>
+            <th>Reply Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody class="align-items-baseline">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-dark">@(item.PermitType == EnumPermission.MarriagePermission ? "Marriage Permission" : (item.PermitType == EnumPermission.AnnualPermit ? "Annual Leave" : (item.PermitType == EnumPermission.PaternityLeave ? "Paternity Leave" : (item.PermitType == EnumPermission.AdministrativeLeave ? "Administrative Leave" : "Excuse Leave"))))</td>
+                <td class="text-dark">@item.EmployeeFullName</td>
+                <td class="text-dark">@item.PermitStartDate.ToShortDateString()</td>
+                <td class="text-dark">@(((DateTime)item.LeaveExpiryDate).ToShortDateString())</td>
+                <td class="text-dark">@item.Duration Day(s)</td>
+                @if (item.ReplyDate != null)
+                {
+                    <td>@item.ReplyDate</td>
+                }
+                else
+                {
+                    <td>Not replied yet</td>
+                }
+                <td class="@(item.PermissionStatus == EnumPermissionStatus.Pending ? "text-warning" : (item.PermissionStatus == EnumPermissionStatus.Approved ? "text-success" : "text-danger"))">@item.PermissionStatus</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(".table").DataTable({
+            "order": []
+        });
+    </script>
+}

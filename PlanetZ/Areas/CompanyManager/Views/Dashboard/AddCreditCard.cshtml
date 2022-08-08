@@ -1,0 +1,47 @@
+﻿@model CreditCard
+
+@{
+    ViewData["Title"] = "Add Credit Card";
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Your Balance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="TransferBalance">Transfer Balance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="AddCreditCard">Add Credit Card</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <form asp-action="AddCreditCard" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="text-dark" asp-for="Name">Give a name to your card</label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="text-dark" asp-for="CardNumber">Card Number</label>
+                <input asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="text-dark" asp-for="CardExpire">Card Expire</label>
+                <input asp-for="CardExpire" class="form-control"/>
+                <span asp-validation-for="CardExpire" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="text-dark" asp-for="CardCvv">Card Cvv</label>
+                <input asp-for="CardCvv" class="form-control" required />
+                <span asp-validation-for="CardCvv" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </div>
+</div>

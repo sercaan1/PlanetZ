@@ -1,0 +1,14 @@
+﻿@model Expense
+@{
+    ViewData["Title"] = "Description for rejection";
+}
+
+<h3>Do you want to add any explanation for rejecting this request?</h3>
+
+<form asp-action="SaveDescriptionExpense" method="post">
+    <input name="id" type="hidden" asp-for="Id" />
+    <label asp-for="ReturnResponse">Explanation</label>
+    <textarea name="returnResponse" class="form-control" asp-for="ReturnResponse"></textarea>
+    <span asp-validation-for="ReturnResponse"></span>
+    <button class="btn btn-success mt-2" type="submit">Save</button>
+</form>

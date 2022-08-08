@@ -1,0 +1,120 @@
+﻿@model CreatePermissionVM
+@{
+    ViewData["Title"] = "Permission Request";
+}
+
+<h1 class="text-primary">Permission Request</h1>
+
+@if (ViewBag.InsufficientDay != null)
+{
+    <span class="text-danger">You have @ViewBag.InSufficientDay days of annual leave</span>
+}
+
+<form asp-action="CreatePermission" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PermitType">Permission Type</label>
+        <select id="permitTypeList" type="radio" asp-for="PermitType" class="form-control" asp-items="@Html.GetEnumSelectList<EnumPermission>()">
+        </select>
+        <span asp-validation-for="PermitType" class="text-danger"></span>
+    </div>
+    <div id="startDate" class="form-group">
+        <label class="text-dark" asp-for="PermitStartDate">Start Day of Annual Leave</label>
+        <input type="date" asp-for="PermitStartDate" class="form-control" required />
+        <span asp-validation-for="PermitStartDate" class="text-danger"></span>
+    </div>
+    <div id="endDate" class="form-group">
+        <label class="text-dark" asp-for="LeaveExpiryDate">End Day of Annual Leave</label>
+        <input type="date" asp-for="LeaveExpiryDate" class="form-control" />
+        <span asp-validation-for="LeaveExpiryDate" class="text-danger"></span>
+        @if (ViewBag.LeaveDayError != null)
+        {
+            <span class="text-danger">End date of annual leave cannot be earlier than start date</span>
+        }
+    </div>
+    <div id="durationDiv" class="form-group" style="display: none">
+        <label class="text-dark" asp-for="Duration">Duration</label>
+        <input id="durationDate" type="text" asp-for="Duration" class="form-control" disabled />
+        <span asp-validation-for="Duration" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Request</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(window).on("load", function () {
+            var list = document.getElementById("permitTypeList");
+            if (list.value == 0) {
+                document.getElementById("endDate").style.display = "";
+                document.getElementById("durationDiv").style.display = "none";
+            }
+            else {
+                document.getElementById("endDate").style.display = "none";
+                document.getElementById("durationDiv").style.display = "";
+            }
+            if (list.value == 1) {
+                document.getElementById("durationDate").value = "3 Days";
+
+            }
+            else if (list.value == 2) {
+                document.getElementById("durationDate").value = "2 Days";
+            }
+            else if (list.value == 3) {
+                document.getElementById("durationDate").value = "5 Days";
+            }
+            else if (list.value == 4) {
+                document.getElementById("durationDate").value = "2 Days";
+            }
+        });
+        document.getElementById("permitTypeList").onchange = function (e) {
+            if (this.value == 0) {
+                document.getElementById("endDate").style.display = "";
+                document.getElementById("durationDiv").style.display = "none";
+            }
+            else {
+                document.getElementById("endDate").style.display = "none";
+                document.getElementById("durationDiv").style.display = "";
+            }
+            if (this.value == 1) {
+                document.getElementById("durationDate").value = "3 Days";
+
+            }
+            else if (this.value == 2) {
+                document.getElementById("durationDate").value = "2 Days";
+            }
+            else if (this.value == 3) {
+                document.getElementById("durationDate").value = "5 Days";
+            }
+            else if (this.value == 4) {
+                document.getElementById("durationDate").value = "2 Days";
+            }
+        }
+
+            //function hideDateInput() {
+            //    var list = document.getElementById("permitTypeList");
+            //    if (list.value == 0) {
+            //        document.getElementById("endDate").style.display = "";
+            //        document.getElementById("durationDiv").style.display = "none";
+            //    }
+            //    else {
+            //        document.getElementById("endDate").style.display = "none";
+            //        document.getElementById("durationDiv").style.display = "";
+            //    }
+            //    if (list.value == 1) {
+            //        document.getElementById("durationDate").value = "3 Days";
+
+            //    }
+            //    else if (list.value == 2) {
+            //        document.getElementById("durationDate").value = "2 Days";
+            //    }
+            //    else if (list.value == 3) {
+            //        document.getElementById("durationDate").value = "5 Days";
+            //    }
+            //    else if (list.value == 4) {
+            //        document.getElementById("durationDate").value = "2 Days";
+            //    }
+            //}
+    </script>
+}

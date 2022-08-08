@@ -1,0 +1,93 @@
+﻿@model CreateCompanyVM
+
+@{
+    ViewData["Title"] = "Create Company";
+}
+<h1 class="text-primary">Create New Company</h1>
+
+<form class="myForm" asp-controller="Dashboard" asp-action="CreateCompany" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="CompanyName">Company Name</label>
+        <input type="text" asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="Email">E-mail</label>
+        <input type="text" asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="Sector">Sector</label>
+        <select id="advanceTypeList" type="radio" asp-for="Sector" class="form-control" asp-items="@Html.GetEnumSelectList<EnumSectors>()"></select>
+        <span asp-validation-for="Sector" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="Address"></label>
+        <textarea asp-for="Address" class="form-control"></textarea>
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="MersisNo">Mersis No</label>
+        <input type="text" asp-for="MersisNo" class="form-control" />
+        <span asp-validation-for="MersisNo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="FoundedDate">Foundated Date</label>
+        <input type="date" asp-for="FoundedDate" class="form-control" />
+        <span asp-validation-for="FoundedDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PhoneNumber">Phone Number</label>
+        <input placeholder="(546) 601-01 50" type="text" onkeydown="phoneNumberFormatter()" id="phone-number" asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="DateOfContract">Date Of Contract</label>
+        <input type="date" asp-for="DateOfContract" class="form-control" />
+        <span asp-validation-for="DateOfContract" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="EndOfContract">End Of Contract</label>
+        <input type="date" asp-for="EndOfContract" class="form-control" />
+        <span asp-validation-for="EndOfContract" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="CompanyType">Company Type</label>
+        <select type="radio" asp-for="CompanyType" class="form-control" asp-items="@Html.GetEnumSelectList<CompanyType>()">
+        </select>
+        <span asp-validation-for="CompanyType" class="text-danger"></span>
+    </div>    
+    <div class="form-group">
+        <label class="text-dark" asp-for="PhotoFile">Company Logo</label>
+        <input type="file" asp-for="PhotoFile" class="form-control-file" />
+        <span asp-validation-for="PhotoFile" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function formatPhoneNumber(value) {
+            if (!value) return value;
+            const phoneNumber = value.replace(/[^\d]/g, '');
+            const phoneNumberLength = phoneNumber.length;
+            if (phoneNumberLength < 4) return phoneNumber;
+            if (phoneNumberLength < 7) {
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+            }
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+                3,
+                6
+            )}-${phoneNumber.slice(6, 9)}`;
+        }
+
+        function phoneNumberFormatter() {
+            const inputField = document.getElementById('phone-number');
+            const formattedInputValue = formatPhoneNumber(inputField.value);
+            inputField.value = formattedInputValue;
+        }
+    </script>
+}

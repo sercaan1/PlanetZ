@@ -1,0 +1,100 @@
+﻿@model DetailsEmployeeVM
+@{
+    ViewData["Title"] = "Profile Page";
+}
+<form asp-action="EditProfile" method="post">
+    <input type="hidden" asp-for="Id" />
+    <section style="background-color: #f4f5f7;">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="card mb-3" style="border-radius: .5rem; color:black">
+                <div class="row g-0">
+                    <div class="col-md-4 gradient-custom text-center"
+                         style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                        <img src="~/img/employeePhotos/@Model.PhotoPath"
+                             alt="Avatar" class="img-fluid my-5" style="width: 300px;" />
+                        <h3>@Model.FirstName &nbsp; @Model.LastName</h3>
+                        <p>@Model.Profession</p>
+                        <p>@Model.Title</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                <h5 class="fw-bolder">Information</h5>
+                            </div>
+                            <hr class="mt-0 mb-4">
+                            <div class="row pt-1">
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Email-Username</h5>
+                                    <p class="text-muted">@Model.Email</p>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Phone</h5>
+                                    <input placeholder="@Model.PhoneNumber" type="text" onkeydown="phoneNumberFormatter()" id="phone-number" asp-for="PhoneNumber" class="form-inline" />
+                                    <span asp-validation-for="PhoneNumber"></span>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Address</h5>
+                                    <textarea class="form-control" type="text" asp-for="Address"></textarea>
+                                    <span asp-validation-for="Address"></span>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Birthday</h5>
+                                    <p class="text-muted">@Model.Birthday.ToShortDateString()</p>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Work Unit</h5>
+                                    <p class="text-muted">@Model.WorkUnit</p>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <h5 class="fw-bolder">Job Start Date</h5>
+                                    <p class="text-muted">@Model.JobStartDate.ToShortDateString()</p>
+                                </div>
+                                @if (Model.DismissalDate != null && Model.NewJobStartDate != null)
+                                {
+                                    <div class="col-6 mb-3">
+                                        <h5 class="fw-bolder">Dismissal Date</h5>
+                                        <p class="text-muted">@(((DateTime)Model.DismissalDate).ToShortDateString())</p>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h5 class="fw-bolder">Return Job Date</h5>
+                                        <p class="text-muted">@(((DateTime)Model.NewJobStartDate).ToShortDateString())</p>
+                                    </div>
+                                }
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <a href="#!"><i class="fab fa-facebook-f fa-lg mr-3"></i></a>
+                                <a href="#!"><i class="fab fa-twitter fa-lg mr-3"></i></a>
+                                <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary">Save</button>
+    </section>
+</form>
+
+@section Scripts{
+    <script>
+        function formatPhoneNumber(value) {
+            if (!value) return value;
+            const phoneNumber = value.replace(/[^\d]/g, '');
+            const phoneNumberLength = phoneNumber.length;
+            if (phoneNumberLength < 4) return phoneNumber;
+            if (phoneNumberLength < 7) {
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+            }
+            return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+                3,
+                6
+            )}-${phoneNumber.slice(6, 9)}`;
+        }
+
+        function phoneNumberFormatter() {
+            const inputField = document.getElementById('phone-number');
+            const formattedInputValue = formatPhoneNumber(inputField.value);
+            inputField.value = formattedInputValue;
+        }
+    </script>
+}

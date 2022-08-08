@@ -1,0 +1,77 @@
+﻿@model List<ListAdvanceVM>
+@{
+    ViewData["Title"] = "Advance List";
+}
+<h1 class="text-primary mb-4">Advance List</h1>
+
+@if (Model == null)
+{
+    <h5>There is no permission request yet.</h5>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr class="text-info">
+            <th>Employee Full Name</th>
+            <th>Advance Type</th>
+            <th>Advance Amount</th>
+            <th>Advance Currency</th>
+            <th>Description</th>
+            <th>Request Date</th>
+            <th>Reply Date</th>
+            <th>Response</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody class="align-items-baseline">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-dark">@item.EmployeeFullName</td>
+                <td class="text-dark">@(item.AdvanceType==EnumAdvanceType.TravelExpense ? "Travel Expense" : (item.AdvanceType == EnumAdvanceType.AdvancePayment ? "Advance Payment" : ""))</td>
+                @if (item.AdvanceCurrency == EnumCurrencyUnit.TL)
+                {
+                    <td class="text-dark">₺@item.AdvanceAmount.ToString("n2")</td>
+                }
+                @if (item.AdvanceCurrency == EnumCurrencyUnit.USD)
+                {
+                    <td class="text-dark">$@item.AdvanceAmount.ToString("n2")</td>
+
+                }
+                @if (item.AdvanceCurrency == EnumCurrencyUnit.EUR)
+                {
+                    <td class="text-dark">€@item.AdvanceAmount.ToString("n2")</td>
+
+                }
+                <td class="text-dark">@(item.AdvanceCurrency==EnumCurrencyUnit.TL ? "TL" : (item.AdvanceCurrency == EnumCurrencyUnit.USD ? "USD" : (item.AdvanceCurrency == EnumCurrencyUnit.EUR ? "EUR" : "")))</td>
+                <td class="text-dark">@item.AdvanceDescription</td>
+                <td class="text-dark">@item.RequestDate</td>
+                @if (item.ReplyDate != null)
+                {
+                    <td>@item.ReplyDate</td>
+                }
+                else
+                {
+                    <td>Not replied yet</td>
+                }
+                @if (item.ReturnResponse != null)
+                {
+                    <td>@item.ReturnResponse</td>
+                }
+                else
+                {
+                    <td>Not replied yet</td>
+                }
+                <td class="@(item.AdvanceStatus == EnumAdvanceStatus.Pending ? "text-warning" : (item.AdvanceStatus == EnumAdvanceStatus.Approved ? "text-success" : "text-danger"))">@item.AdvanceStatus</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(".table").DataTable({
+            "order": []
+        });
+    </script>
+}

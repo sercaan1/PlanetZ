@@ -1,0 +1,50 @@
+﻿@model CreatePackageVM
+
+@{
+    ViewData["Title"] = "Create Package";
+}
+<h1 class="text-primary">Create New Package</h1>
+
+<form class="myForm" asp-controller="Dashboard" asp-action="CreatePackage" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PackageName">Package Name</label>
+        <input type="text" asp-for="PackageName" class="form-control" />
+        <span asp-validation-for="PackageName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="Amount">Amount</label>
+        <div class="justify-content-between d-flex">
+            <input type="number" asp-for="Amount" class="form-control" />
+            <select type="radio" asp-for="CurrencyUnit" class="form-control" asp-items="@Html.GetEnumSelectList<EnumCurrencyUnit>()">
+            </select>
+        </div>
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PublishStartDay">Publish Start Date</label>
+        <input type="date" asp-for="PublishStartDay" class="form-control" />
+        <span asp-validation-for="PublishStartDay" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PublishEndDay">Publish End Date</label>
+        <input type="date" asp-for="PublishEndDay" class="form-control" />
+        <span asp-validation-for="PublishEndDay" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="NumberofUsers">Number of Users</label>
+        <input type="number" asp-for="NumberofUsers" class="form-control" />
+        <span asp-validation-for="NumberofUsers" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="Description">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="text-dark" asp-for="PhotoFile">Package Image</label>
+        <input type="file" asp-for="PhotoFile" class="form-control-file" />
+        <span asp-validation-for="PhotoFile" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

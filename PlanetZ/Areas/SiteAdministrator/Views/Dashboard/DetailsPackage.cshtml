@@ -1,0 +1,59 @@
+﻿
+@model DetailsPackageVM
+@{
+    ViewData["Title"] = "Package Details:";
+}
+
+<section style="background-color: #f4f5f7;">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="card mb-3" style="border-radius: .5rem; color:black">
+            <div class="row g-0">
+                <div class="col-md-4 gradient-custom text-center"
+                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="~/img/packageImage/@Model.PhotoPath"
+                         alt="Image" class="img-fluid my-5" style="width: 300px;" />
+                    <h3 class="text-dark">@Model.PackageName</h3>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-baseline">
+                            <h5 class="fw-bolder text-primary">Package Information</h5>
+                        </div>
+                        <hr class="mt-0 mb-4">
+                        <div class="row pt-1">
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Package Name</h5>
+                                <p class="text-dark">@Model.PackageName</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Amount</h5>
+                                <p class="text-dark">@Model.Amount</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Number of Users</h5>
+                                <p class="text-dark">@Model.NumberofUsers</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Usage Time</h5>
+                                <p class="text-dark">@Model.UsageTime</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Publish Start Day</h5>
+                                <p class="text-dark">@Model.PublishStartDay.ToShortDateString()</p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5 class="fw-bolder text-info">Publish End Day</h5>
+                                <p class="text-dark">
+                                    @Model.PublishEndDay.ToShortDateString()
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<a asp-action="ListPackage">&laquo; Back to package list..</a>
+
